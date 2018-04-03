@@ -1,52 +1,78 @@
 package com.nova.samplecanvasdraw;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-    @Override
+
+public class MainActivity extends Activity {
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        MyView m = new MyView(MainActivity.this);
-        setContentView(m);
-    } // end of onCreate
-} // end of class
 
-class MyView extends View {
-    public MyView(Context context) {
-        super(context); // 부모의 인자값이 있는 생성자를 호출한다
+        //setContentView(R.layout.activity_animation_canvas_test);
+        setContentView(new MyView(this));
     }
 
-    //
-    @Override
-    protected void onDraw(Canvas canvas) { // 화면을 그려주는 작업
-        Paint paint = new Paint(); // 화면에 그려줄 도구를 셋팅하는 객체
-        paint.setColor(Color.RED); // 색상을 지정
+    public class MyView extends View {
+        private Bitmap image1, image2, image3;
 
-        setBackgroundColor(Color.GREEN); // 배경색을 지정
-        canvas.drawRect(100,100,200,200,paint); // 사각형의 좌상,우하 좌표
-        canvas.drawCircle(300, 300, 40, paint); // 원의중심 x,y, 반지름,paint
+        public MyView(Context context) {
+            super(context);
+            setBackgroundColor(Color.LTGRAY);
 
-        paint.setColor(Color.YELLOW);
-        paint.setStrokeWidth(10f);    // 선의 굵기
-        canvas.drawLine(400, 100, 500, 150, paint); // 직선
+            Resources r = context.getResources();
+            image1 = BitmapFactory.decodeResource(r, R.drawable.life);
+            image2 = BitmapFactory.decodeResource(r, R.drawable.load);
+            image3 = BitmapFactory.decodeResource(r, R.drawable.modoru);
+        }
 
-        // path 자취 만들기
-        Path path = new Path();
-        path.moveTo(20, 100); // 자취 이동
-        path.lineTo(100, 200); // 자취 직선
-        path.cubicTo(150, 30, 200, 300, 300, 200); // 자취 베이지곡선
+        @Override
+        protected void onDraw(Canvas canvas) {
+            canvas.drawBitmap(image1, 0, 0, null);
 
-        paint.setColor(Color.MAGENTA);
+            int w = image2.getWidth();
+            int h = image2.getHeight();
+            //Rect src = new Rect(0, 0, w, h);
+            Rect dst = new Rect(400, 800, 400 + w / 2, 800 + h / 2);
+            canvas.drawBitmap(image2, null, dst, null);
 
-        canvas.drawPath(path, paint);
+            w = image3.getWidth();
+            h = image3.getHeight();
+            //src = new Rect(0, 0, w, h);
+            dst = new Rect(400, 1200, 400 + w / 2, 1200 + h / 2);
+            canvas.drawBitmap(image3, null, dst, null);
+
+            super.onDraw(canvas);
+        }
     }
+/*
+ @Override
+ public boolean onCreateOptionsMenu(Menu menu) {
+  // Inflate the menu; this adds items to the action bar if it is present.
+  getMenuInflater().inflate(R.menu.animation_canvas_test, menu);
+  return true;
+ }
+
+ @Override
+ public boolean onOptionsItemSelected(MenuItem item) {
+  // Handle action bar item clicks here. The action bar will
+  // automatically handle clicks on the Home/Up button, so long
+  // as you specify a parent activity in AndroidManifest.xml.
+  int id = item.getItemId();
+  if (id == R.id.action_settings) {
+   return true;
+  }
+  return super.onOptionsItemSelected(item);
+ }
+*/
 }
+
 
