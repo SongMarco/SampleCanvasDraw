@@ -24,6 +24,7 @@ class MyView extends View {
         super(context); // 부모의 인자값이 있는 생성자를 호출한다
     }
 
+    //
     @Override
     protected void onDraw(Canvas canvas) { // 화면을 그려주는 작업
         Paint paint = new Paint(); // 화면에 그려줄 도구를 셋팅하는 객체
